@@ -3,22 +3,38 @@
 import Link from "next/link";
 import React, { useState } from "react";
 import { BiMenuAltLeft } from "react-icons/bi";
-import { AiOutlineClose } from "react-icons/ai";
+import { AiOutlineClose, AiOutlineShoppingCart } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { logout } from "@/store/slices/userSlice";
 
 const Navbar = () => {
+  const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const loggedUser = useSelector((state: RootState) => state.user.loggedUser);
-  const dispatch = useDispatch();
-  
+  const itemsQuantity = useSelector(
+    (state: RootState) => state.order.itemsQuantity
+  );
+
   return (
     <header className=" bg-gray-600 relative mb-5">
-      <div className="h-12 mx-3 flex justify-between items-center text-slate-50 max-w-[1500px] 2xl:m-auto">
+      <div className="h-12 mx-3 pt-3 flex justify-between items-center text-slate-50 max-w-[1500px] 2xl:m-auto">
         <div>
           <Link href="/">LOGO</Link>
         </div>
+        {loggedUser && (
+          <div className="flex flex-col items-center justify-center gap-1">
+            <p>
+              {loggedUser.first_name} {loggedUser.last_name}
+            </p>
+            <div className="relative">
+              <AiOutlineShoppingCart size={20} />
+              <span className="absolute bottom-2 left-4 text-green-400 font-semibold">
+                {itemsQuantity}
+              </span>
+            </div>
+          </div>
+        )}
         <div className="cursor-pointer text-white md:hidden">
           {!isOpen ? (
             <BiMenuAltLeft size={30} onClick={() => setIsOpen(true)} />
@@ -30,6 +46,7 @@ const Navbar = () => {
             />
           )}
         </div>
+
         <nav
           className={`bg-slate-400 transition-all duration-500 absolute p-4 top-0 ${
             isOpen ? "left-0" : "left-[-120px]"

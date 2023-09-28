@@ -2,6 +2,7 @@ import { Product } from "@/types/product";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import ButtonBuy from "../ui/ButtonBuy";
 
 type ProductCardProps = {
   product: Product;
@@ -18,12 +19,15 @@ const ProductCard = ({ product }: ProductCardProps) => {
           {product.title}
         </h4>
         <h3 className="text-base font-bold mb-1">${product.price}</h3>
-        <Link
-          className="text-blue-900 font-semibold"
-          href={`/products/${product.id}`}
-        >
-          View details
-        </Link>
+        <div>
+          <Link
+            className="text-blue-900 font-semibold"
+            href={`/products/${product.id}`}
+          >
+            View details
+          </Link>
+          <ButtonBuy product={product} />
+        </div>
       </div>
     </div>
   );

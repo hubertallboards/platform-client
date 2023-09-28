@@ -17,3 +17,12 @@ export type GetProductsResponse = {
   per_page: number;
   total: number;
 };
+
+export type OrderedProduct = {
+  id: string;
+  title: string;
+  price: number;
+  image: string;
+  category: Category;
+  quantity: number;
+};

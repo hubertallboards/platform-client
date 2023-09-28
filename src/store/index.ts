@@ -2,6 +2,7 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { userApi } from "./apis/userApi";
 import userReducer from "./slices/userSlice";
+import orderReducer from "./slices/orderSlice";
 import {
   persistStore,
   persistReducer,
@@ -18,11 +19,12 @@ const persistConfig = {
   key: "root",
   version: 1,
   storage,
-  whitelist: ["user"],
+  whitelist: ["user", "order"],
 };
 
 const rootReducer = combineReducers({
   user: userReducer,
+  order: orderReducer,
   [userApi.reducerPath]: userApi.reducer,
 });
 
