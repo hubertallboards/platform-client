@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Footer from "@/components/ui/Footer";
 import StoreProvider from "@/providers/StoreProvider";
+import PersistStoreProvider from "@/providers/PersistStoreProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,9 +22,11 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <StoreProvider>
-          <Navbar />
-          {children}
-          <Footer />
+          <PersistStoreProvider>
+            <Navbar />
+            <main className="mx-3 max-w-[1500px] 2xl:m-auto">{children}</main>
+            <Footer />
+          </PersistStoreProvider>
         </StoreProvider>
       </body>
     </html>

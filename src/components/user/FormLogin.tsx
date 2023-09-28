@@ -2,11 +2,14 @@
 import React from "react";
 import { Formik } from "formik";
 import * as yup from "yup";
-import { UserFormLogin } from "@/types/user";
+import { User, UserFormLogin } from "@/types/user";
 import { useLoginMutation } from "@/store/apis/userApi";
+import { useDispatch } from "react-redux";
+import { setLoggedUser } from "@/store/slices/userSlice";
 
 const FormLogin = () => {
   const [login] = useLoginMutation();
+  const dispatch = useDispatch();
 
   const initialValues: UserFormLogin = {
     email: "",
@@ -20,7 +23,9 @@ const FormLogin = () => {
 
   const submitForm = async (values: UserFormLogin) => {
     const res = await login(values);
-    console.log(res);
+    if ("data" in res) {
+      dispatch(setLoggedUser(res.data.user));
+    }
   };
 
   return (
