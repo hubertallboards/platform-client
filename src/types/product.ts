@@ -22,6 +22,7 @@ export type OrderedProduct = {
   id: string;
   title: string;
   price: number;
+  description: string;
   image: string;
   category: Category;
   quantity: number;

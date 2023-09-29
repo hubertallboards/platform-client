@@ -27,12 +27,14 @@ const Navbar = () => {
             <p>
               {loggedUser.first_name} {loggedUser.last_name}
             </p>
-            <div className="relative">
-              <AiOutlineShoppingCart size={20} />
-              <span className="absolute bottom-2 left-4 text-green-400 font-semibold">
-                {itemsQuantity}
-              </span>
-            </div>
+            <Link href={"/orders/new"}>
+              <div className="relative cursor-pointer">
+                <AiOutlineShoppingCart size={20} />
+                <span className="absolute bottom-2 left-4 text-green-400 font-semibold">
+                  {itemsQuantity}
+                </span>
+              </div>
+            </Link>
           </div>
         )}
         <div className="cursor-pointer text-white md:hidden">
