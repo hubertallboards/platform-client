@@ -1,4 +1,9 @@
-import { UserFormLogin, UserLoginResponse } from "@/types/user";
+import {
+  UserFormLogin,
+  UserFormRegister,
+  UserLoginResponse,
+  UserRegisterResponse,
+} from "@/types/user";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const userApi = createApi({
@@ -17,8 +22,16 @@ export const userApi = createApi({
           credentials: "include",
         }),
       }),
+      register: builder.mutation<UserRegisterResponse, UserFormRegister>({
+        query: (userFormRegister) => ({
+          url: "/register",
+          method: "POST",
+          body: userFormRegister,
+          credentials: "include",
+        }),
+      }),
     };
   },
 });
 
-export const { useLoginMutation } = userApi;
+export const { useLoginMutation, useRegisterMutation } = userApi;

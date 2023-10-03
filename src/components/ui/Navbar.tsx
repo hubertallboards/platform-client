@@ -66,7 +66,6 @@ const Navbar = () => {
       </div>
       <button
         onClick={() => {
-          console.log("logout");
           dispatch(logout);
         }}
       >

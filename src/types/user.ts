@@ -42,3 +42,7 @@ export type UserLoginResponse = {
   jwt: string;
   user: User;
 };
+
+export type UserRegisterResponse = {
+  user: User;
+};
