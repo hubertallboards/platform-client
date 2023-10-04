@@ -56,7 +56,7 @@ const Navbar = () => {
         >
           <ul className="flex flex-col gap-2 items-center py-4 md:flex-row">
             <li className="hover:text-red-200">
-              <Link href="/products?page=2">Products</Link>
+              <Link href="/products?page=1">Products</Link>
             </li>
             <li>
               <Link href="/orders">Orders</Link>

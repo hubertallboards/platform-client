@@ -46,3 +46,18 @@ export type UserLoginResponse = {
 export type UserRegisterResponse = {
   user: User;
 };
+
+export interface UserLoginError {
+  data: {
+    error: string;
+  };
+}
+
+export interface UserRegisterError {
+  data: {
+    data: {
+      email?: string;
+      name?: string;
+    };
+  };
+}

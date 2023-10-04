@@ -2,14 +2,15 @@
 import React from "react";
 import { Formik } from "formik";
 import * as yup from "yup";
-import { User, UserFormLogin } from "@/types/user";
-import { useRegisterMutation } from "@/store/apis/userApi";
+import { useLoginMutation, useRegisterMutation } from "@/store/apis/userApi";
 import { useDispatch } from "react-redux";
 import { setLoggedUser } from "@/store/slices/userSlice";
 import { UserFormRegister } from "../../types/user";
+import Link from "next/link";
 
-const UserFormRegister = () => {
+const FormRegister = () => {
   const [register] = useRegisterMutation();
+  const [login] = useLoginMutation();
   const dispatch = useDispatch();
 
   const initialValues: UserFormRegister = {
@@ -29,7 +30,13 @@ const UserFormRegister = () => {
   const submitForm = async (values: UserFormRegister) => {
     const res = await register(values);
     if ("data" in res) {
-      dispatch(setLoggedUser(res.data.user));
+      const res = await login({
+        email: values.email,
+        password: values.password,
+      });
+      if ("data" in res) {
+        dispatch(setLoggedUser(res.data.user));
+      }
     }
   };
 
@@ -50,6 +57,38 @@ const UserFormRegister = () => {
         } = formik;
         return (
           <form onSubmit={handleSubmit} noValidate>
+            <div className="flex justify-between items-center mb-3">
+              <label>First Name</label>
+              {errors.first_name && touched.first_name && (
+                <p className="text-red-500 text-sm first-letter:capitalize">
+                  {errors.first_name}
+                </p>
+              )}
+            </div>
+            <input
+              name="first_name"
+              type="text"
+              value={values.first_name}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              className="border-b border-solid border-x-0 border-gray-400 border-t-0 w-full mb-10 p-2"
+            />
+            <div className="flex justify-between items-center mb-3">
+              <label>Last name</label>
+              {errors.last_name && touched.last_name && (
+                <p className="text-red-500 text-sm first-letter:capitalize">
+                  {errors.last_name}
+                </p>
+              )}
+            </div>
+            <input
+              name="last_name"
+              type="text"
+              value={values.email}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              className="border-b border-solid border-x-0 border-gray-400 border-t-0 w-full mb-10 p-2"
+            />
             <div className="flex justify-between items-center mb-3">
               <label>Email</label>
               {errors.email && touched.email && (
@@ -83,10 +122,13 @@ const UserFormRegister = () => {
               className="border-b border-solid border-x-0 border-gray-400 border-t-0 w-full mb-10 p-2"
             />
             <button className="border-black border- border-solid ">
-              Login
+              Register
             </button>
             <p>
-              Don&apos;t have an account?<span>Signup</span>
+              Already have an account?
+              <Link href="/login">
+                <span>Sign in</span>
+              </Link>
             </p>
           </form>
         );
@@ -95,4 +137,4 @@ const UserFormRegister = () => {
   );
 };
 
-export default UserFormRegister;
+export default FormRegister;

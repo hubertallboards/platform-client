@@ -1,14 +1,15 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { Formik } from "formik";
 import * as yup from "yup";
-import { User, UserFormLogin } from "@/types/user";
+import { User, UserFormLogin, UserLoginError } from "@/types/user";
 import { useLoginMutation } from "@/store/apis/userApi";
 import { useDispatch } from "react-redux";
 import { setLoggedUser } from "@/store/slices/userSlice";
+import Link from "next/link";
 
 const FormLogin = () => {
-  const [login] = useLoginMutation();
+  const [login, { error, isError }] = useLoginMutation();
   const dispatch = useDispatch();
 
   const initialValues: UserFormLogin = {
@@ -23,6 +24,7 @@ const FormLogin = () => {
 
   const submitForm = async (values: UserFormLogin) => {
     const res = await login(values);
+    console.log(res);
     if ("data" in res) {
       dispatch(setLoggedUser(res.data.user));
     }
@@ -81,8 +83,14 @@ const FormLogin = () => {
               Login
             </button>
             <p>
-              Don&apos;t have an account?<span>Signup</span>
+              Don&apos;t have an account?
+              <Link href="/register">
+                <span>Signup</span>
+              </Link>
             </p>
+            {isError && error && "status" in error && "data" in error && (
+              <p>{(error.data as { error: string }).error}</p>
+            )}
           </form>
         );
       }}

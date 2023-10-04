@@ -9,8 +9,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store";
 import "./CheckoutForm.css";
 import { clearOrder } from "@/store/slices/orderSlice";
+import { useRouter } from "next/navigation";
 
 export default function CheckoutForm() {
+  const router = useRouter();
   const stripe = useStripe();
   const elements = useElements();
   const dispatch = useDispatch();
@@ -37,6 +39,7 @@ export default function CheckoutForm() {
         case "succeeded":
           setMessage("Payment succeeded!");
           dispatch(clearOrder());
+          router.push("/payment/success");
           break;
         case "processing":
           setMessage("Your payment is processing.");
