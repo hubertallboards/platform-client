@@ -10,6 +10,7 @@ import { RootState } from "@/store";
 import "./CheckoutForm.css";
 import { clearOrder } from "@/store/slices/orderSlice";
 import { useRouter } from "next/navigation";
+import { useAddOrderMutation } from "@/store/apis/orderApi";
 
 export default function CheckoutForm() {
   const router = useRouter();
@@ -17,9 +18,13 @@ export default function CheckoutForm() {
   const elements = useElements();
   const dispatch = useDispatch();
 
+  const [addOrder] = useAddOrderMutation();
   const [message, setMessage] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const orderValue = useSelector((state: RootState) => state.order.value);
+  const orderedProducts = useSelector(
+    (state: RootState) => state.order.orderedProducts
+  ).map((product) => ({ id: product.id, quantity: product.quantity }));
 
   useEffect(() => {
     if (!stripe) {
@@ -38,6 +43,9 @@ export default function CheckoutForm() {
       switch (paymentIntent?.status) {
         case "succeeded":
           setMessage("Payment succeeded!");
+          (async () => {
+            await addOrder({ products: orderedProducts });
+          })();
           dispatch(clearOrder());
           router.push("/payment/success");
           break;

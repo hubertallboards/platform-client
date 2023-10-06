@@ -16,6 +16,11 @@ const Navbar = () => {
     (state: RootState) => state.order.itemsQuantity
   );
 
+  const handleLogout = () => {
+    console.log("logout");
+    dispatch(logout());
+  };
+
   return (
     <header className=" bg-gray-600 relative mb-5">
       <div className="h-12 mx-3 pt-3 flex justify-between items-center text-slate-50 max-w-[1500px] 2xl:m-auto">
@@ -64,13 +69,7 @@ const Navbar = () => {
           </ul>
         </nav>
       </div>
-      <button
-        onClick={() => {
-          dispatch(logout);
-        }}
-      >
-        logout
-      </button>
+      <button onClick={handleLogout}>LOGOUT</button>
     </header>
   );
 };

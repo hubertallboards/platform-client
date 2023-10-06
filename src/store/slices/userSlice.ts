@@ -2,9 +2,9 @@ import { User } from "@/types/user";
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
-type UserState ={
+type UserState = {
   loggedUser: User | null;
-}
+};
 
 const initialState: UserState = {
   loggedUser: null,
@@ -17,10 +17,9 @@ export const userSlice = createSlice({
     setLoggedUser: (state, action: PayloadAction<User>) => {
       state.loggedUser = action.payload;
     },
-    // logout: (state) => {
-    //   state.loggedUser = null;
-    // },
-    logout: () => {},
+    logout: (state) => {
+      state.loggedUser = null;
+    },
   },
 });
 
