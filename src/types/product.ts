@@ -14,8 +14,10 @@ export type Product = {
 
 export type GetProductsResponse = {
   data: Product[];
-  per_page: number;
-  total: number;
+  meta: {
+    per_page: number;
+    total: number;
+  };
 };
 
 export type OrderedProduct = {

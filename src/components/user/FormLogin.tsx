@@ -24,7 +24,6 @@ const FormLogin = () => {
 
   const submitForm = async (values: UserFormLogin) => {
     const res = await login(values);
-    console.log(res);
     if ("data" in res) {
       dispatch(setLoggedUser(res.data.user));
     }

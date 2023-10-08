@@ -18,7 +18,10 @@ const ProductCard = ({ product }: ProductCardProps) => {
         <h4 className="font-semibold text-sm capitalize mb-1">
           {product.title}
         </h4>
-        <h3 className="text-base font-bold mb-1">${product.price}</h3>
+        <h3 className="text-base font-bold mb-1">
+          ${product.price.toFixed(2)}
+        </h3>
+        <h3 className="text-base font-bold mb-1">{product.category.name}</h3>
         <div>
           <Link
             className="text-blue-900 font-semibold"
