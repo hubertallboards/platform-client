@@ -1,6 +1,7 @@
 import {
   AddOrderValues,
   DeleteOrderResponse,
+  FetchClientResponse,
   GetOrdersResponse,
   Order,
 } from "@/types/order";
@@ -29,8 +30,17 @@ export const orderApi = createApi({
         }),
         invalidatesTags: ["Order"],
       }),
+      fetchSecretKey: builder.mutation<FetchClientResponse, AddOrderValues>({
+        query: (addOrderValues) => ({
+          url: `/orders/process`,
+          method: "POST",
+          body: addOrderValues,
+          credentials: "include",
+        }),
+        invalidatesTags: ["Order"],
+      }),
     };
   },
 });
 
-export const { useAddOrderMutation } = orderApi;
+export const { useAddOrderMutation, useFetchSecretKeyMutation } = orderApi;

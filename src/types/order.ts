@@ -28,3 +28,7 @@ export type GetOrdersResponse = {
 export type DeleteOrderResponse = {
   isSuccess: false;
 };
+
+export type FetchClientResponse = {
+  clientSecret: string;
+};

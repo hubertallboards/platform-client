@@ -7,15 +7,19 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
+import { useFetchSecretKeyMutation } from "@/store/apis/orderApi";
 
 const CheckoutOrderPage = () => {
+  const [clientSecret, setClientSecret] = useState<string | null>(null);
+  const [fetchClientSecret] = useFetchSecretKeyMutation();
+
   const stripePromise = loadStripe(
     process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY as string,
     {
       locale: "en",
     }
   );
-  const [clientSecret, setClientSecret] = useState<string | null>(null);
+
   const orderedProducts = useSelector(
     (state: RootState) => state.order.orderedProducts
   );
@@ -35,22 +39,28 @@ const CheckoutOrderPage = () => {
   } as StripeElementsOptions;
 
   useEffect(() => {
-    const fetchClientSecret = async () => {
-      try {
-        const response = await axios.post(
-          `${process.env.NEXT_PUBLIC_API_URL}/orders/process`,
-          {
-            products,
-          }
-        );
-        setClientSecret(response.data.clientSecret);
-      } catch (error) {
-        console.error(error);
-      }
-    };
+    // const fetchClientSecret = async () => {
+    //   try {
+    //     const response = await axios.post(
+    //       `${process.env.NEXT_PUBLIC_API_URL}/orders/process`,
+    //       {
+    //         products,
+    //       }
+    //     );
+    //     setClientSecret(response.data.clientSecret);
+    //   } catch (error) {
+    //     console.error(error);
+    //   }
+    // };
 
-    fetchClientSecret();
+    (async () => {
+      const res = await fetchClientSecret({ products });
+      if ("data" in res) {
+        setClientSecret(res.data.clientSecret);
+      }
+    })();
   }, []);
+
   return (
     <>
       {clientSecret ? (
